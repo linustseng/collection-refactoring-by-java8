@@ -11,7 +11,7 @@ public class Example1 {
 	public static void main(String[] args) {
 		Author author1 = new Author("Linus", "T1", "CompanyA");
 		Author author2 = new Author("Mark", "T2", "CompanyB");
-		Author author3 = new Author("Sandra", "T3", "CompanyA");
+		Author author3 = new Author("Sandra", null, "CompanyA");
 		Author author4 = new Author("May", "T4", "CompanyC");
 		Author author5 = new Author("Spark", "T5", "CompanyA");
 		List<Author> authors = Arrays.asList(author1, author2, author3, author4, author5);
@@ -20,7 +20,7 @@ public class Example1 {
 	}
 
 	private List<String> findTwitterHandlesByCompany(List<Author> authors, String company) {
-		List<String> result = new ArrayList<String>();
+		List<String> result = new ArrayList<>();
 		for (Author author : authors) {
 			if (company.equals(author.getCompany())) {
 				String twitterHandle = author.getTwitterHandle();
@@ -36,6 +36,11 @@ public class Example1 {
 		return authors.stream()
 				.filter(a -> company.equals(a.getCompany()))
 				.map(a -> a.getTwitterHandle())
+				.filter(t->t!=null)
 				.collect(Collectors.toList());
+//		return authors.stream()
+//				.filter(a -> company.equals(a.getCompany())&&a.getTwitterHandle()!=null)
+//				.map(a -> a.getTwitterHandle())
+//				.collect(Collectors.toList());
 	}
 }
