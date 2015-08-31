@@ -4,19 +4,19 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
-import com.linus.refactoring.collection.vo.Author;
 
 public class Example1 {
 
 	public static void main(String[] args) {
-		Author author1 = new Author("Linus", "T1", "CompanyA");
-		Author author2 = new Author("Mark", "T2", "CompanyB");
-		Author author3 = new Author("Sandra", null, "CompanyA");
-		Author author4 = new Author("May", "T4", "CompanyC");
-		Author author5 = new Author("Spark", "T5", "CompanyA");
+		Example1 ex1 = new Example1();
+		Author author1 = ex1.new Author("Linus", "T1", "CompanyA");
+		Author author2 = ex1.new Author("Mark", "T2", "CompanyB");
+		Author author3 = ex1.new Author("Sandra", null, "CompanyA");
+		Author author4 = ex1.new Author("May", "T4", "CompanyC");
+		Author author5 = ex1.new Author("Spark", "T5", "CompanyA");
 		List<Author> authors = Arrays.asList(author1, author2, author3, author4, author5);
-		System.out.println(new Example1().findTwitterHandlesByCompany(authors, "CompanyA"));
-		System.out.println(new Example1().findTwitterHandlesByCompany2(authors, "CompanyA"));
+		System.out.println(ex1.findTwitterHandlesByCompany(authors, "CompanyA"));
+		System.out.println(ex1.findTwitterHandlesByCompany2(authors, "CompanyA"));
 	}
 
 	private List<String> findTwitterHandlesByCompany(List<Author> authors, String company) {
@@ -42,5 +42,43 @@ public class Example1 {
 //				.filter(a -> company.equals(a.getCompany())&&a.getTwitterHandle()!=null)
 //				.map(a -> a.getTwitterHandle())
 //				.collect(Collectors.toList());
+	}
+	
+	class Author {
+		private String name;
+		private String twitterHandle;
+		private String company;
+
+		
+		public Author(String name, String twitterHandle, String company) {
+			super();
+			this.name = name;
+			this.twitterHandle = twitterHandle;
+			this.company = company;
+		}
+
+		public String getName() {
+			return name;
+		}
+
+		public void setName(String name) {
+			this.name = name;
+		}
+
+		public String getTwitterHandle() {
+			return twitterHandle;
+		}
+
+		public void setTwitterHandle(String twitterHandle) {
+			this.twitterHandle = twitterHandle;
+		}
+
+		public String getCompany() {
+			return company;
+		}
+
+		public void setCompany(String company) {
+			this.company = company;
+		}
 	}
 }
