@@ -1,120 +1,73 @@
 package com.linus.refactoring.collection;
 
+import java.util.Arrays;
 import java.util.HashSet;
-import java.util.Optional;
 import java.util.Set;
+
+import com.linus.refactoring.collection.vo.Equipment;
+import com.linus.refactoring.collection.vo.Offering;
 
 public class Example3 {
 
 	public static void main(String[] args) {
+		Equipment iphone6sRose = new Equipment("Iphone 6s - Rose");
+		Equipment iphone6sSilver = new Equipment("Iphone 6s - Silver");
+		
+		
+		Offering offeringTCRose = new Offering("TaiChung", iphone6sRose,
+				iphone6sRose);
+		Offering offeringTNRose = new Offering("TaiNan", iphone6sRose,
+				iphone6sSilver);
+		Offering offeringTCSilver = new Offering("TaiChung", iphone6sRose,
+				iphone6sSilver);
 
+		iphone6sRose.setOfferings(Arrays.asList(offeringTCRose, offeringTNRose,
+				offeringTCSilver));
+		iphone6sSilver.setOfferings(Arrays.asList(offeringTCSilver));
+
+		Example3 service = new Example3();
+		service.markPreferred(iphone6sRose);
+		service.showPreferred(iphone6sRose);
+
+		service.markPreferred(iphone6sSilver);
+		service.showPreferred(iphone6sSilver);
 	}
 
-	class Service {
-		public void markPreferred(Equipment equipment) {
-			Set<String> checkedRegions = new HashSet<>();
-			for (Offering off : equipment.getOfferings()) {
-				String region = off.getRegion();
-				if (checkedRegions.contains(region)) {
-					continue;
-				}
-
-				Offering possPref = possiblePreference(equipment, region);
-				possPref.setPreferred(true);
-				checkedRegions.add(region);
+	public void showPreferred(Equipment equip) {
+		System.out.println(equip.getName());
+		System.out.println("------------------");
+		for (Offering offering : equip.getOfferings()) {
+			if (offering.isPreferred()) {
+				System.out.println(offering.getRegion());
 			}
 		}
-
-		public void markPreferred2(Equipment equipment) {
-			equipment.getOfferings().stream()
-			.map(off -> off.getRegion())
-			.distinct()
-			.map(r -> possiblePreference(equipment, r))
-			.forEach(off -> off.setPreferred(true));
-
-		}
-
-		private Offering possiblePreference(Equipment equipment, String region) {
-			Optional<Offering> result = equipment.getOfferings(region).stream().filter(o -> o.isPreferred())
-					.findFirst();
-			if (result.isPresent())
-				return result.get();
-
-			return equipment.getOfferings(region).iterator().next();
-		}
+		System.out.println("\n\n");
 	}
 
-	class Offering {
-		private String region;
-		private String supported;
-		private String supplied;
-		private boolean isPreferred;
+	public void markPreferred(Equipment equipment) {
+		Set<String> checkedRegions = new HashSet<>();
+		for (Offering off : equipment.getOfferings()) {
+			String region = off.getRegion();
+			if (checkedRegions.contains(region)) {
+				continue;
+			}
 
-		public String getRegion() {
-			return region;
-		}
+			Offering possPref = null;
 
-		public void setRegion(String region) {
-			this.region = region;
-		}
-
-		public String getSupported() {
-			return supported;
-		}
-
-		public void setSupported(String supported) {
-			this.supported = supported;
-		}
-
-		public String getSupplied() {
-			return supplied;
-		}
-
-		public void setSupplied(String supplied) {
-			this.supplied = supplied;
-		}
-
-		public boolean isPreferred() {
-			return isPreferred;
-		}
-
-		public void setPreferred(boolean isPreferred) {
-			this.isPreferred = isPreferred;
-		}
-	}
-
-	class Equipment {
-		private String name;
-		private Set<Offering> offerings;
-
-		public String getName() {
-			return name;
-		}
-
-		public Set<Offering> getOfferings(String region) {
-			Set<Offering> result = new HashSet<>();
-			if (region != null) {
-				for (Offering offering : result) {
-					if (region.equals(offering.getRegion())) {
-						result.add(offering);
+			for (Offering off2 : equipment.getOfferings(region)) {
+				if (off2.isPreferred()) {
+					possPref = off2;
+					break;
+				} else {
+					if (possPref == null) {
+						possPref = off2;
 					}
 				}
 			}
-			return result;
 
+			possPref.setPreferred(true);
+
+			checkedRegions.add(region);
 		}
-
-		public void setName(String name) {
-			this.name = name;
-		}
-
-		public Set<Offering> getOfferings() {
-			return offerings;
-		}
-
-		public void setOfferings(Set<Offering> offerings) {
-			this.offerings = offerings;
-		}
-
 	}
 }
