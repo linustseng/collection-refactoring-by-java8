@@ -36,6 +36,23 @@ public class Utils {
 		
 		printOutResult(resultMap);
 	}
+	
+	static public void doStastic(Map<String, Long[]> countingMap) {
+		Map<String, Double[]> resultMap = new HashMap<>();
+		for (Map.Entry<String, Long[]> countEntry : countingMap.entrySet()) {
+			String airport = countEntry.getKey();
+			Double meanDelay = countEntry.getValue()[2].doubleValue()
+					/ (countEntry.getValue()[0] - countEntry.getValue()[1]);
+			Double cancellationRate =  countEntry.getValue()[1]
+					.doubleValue() / countEntry.getValue()[0];
+			meanDelay = round2Digital(meanDelay);
+			cancellationRate = round2Digital(cancellationRate);
+			resultMap
+					.put(airport, new Double[] { meanDelay, cancellationRate });
+		}
+		
+		printOutResult(resultMap);
+	}
 
 	private static void printOutResult(Map<String, Double[]> resultMap) {
 		System.out.println("Airport\t\tMean Delay\tCancel %");

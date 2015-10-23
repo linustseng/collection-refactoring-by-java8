@@ -18,12 +18,14 @@ public class Example3 {
 				iphone6sRose);
 		Offering offeringTNRose = new Offering("TaiNan", iphone6sRose,
 				iphone6sSilver);
-		Offering offeringTCSilver = new Offering("TaiChung", iphone6sRose,
+		Offering offeringTCSilver = new Offering("TaiChung", iphone6sSilver,
+				iphone6sSilver);
+		Offering offeringTNSilver = new Offering("TaiNan", iphone6sSilver,
 				iphone6sSilver);
 
-		iphone6sRose.setOfferings(Arrays.asList(offeringTCRose, offeringTNRose,
-				offeringTCSilver));
-		iphone6sSilver.setOfferings(Arrays.asList(offeringTCSilver));
+		iphone6sRose.setOfferings(Arrays.asList(offeringTCRose
+				));
+		iphone6sSilver.setOfferings(Arrays.asList(offeringTNRose, offeringTCSilver,offeringTNSilver));
 
 		Example3 service = new Example3();
 		service.markPreferred(iphone6sRose);
@@ -48,6 +50,8 @@ public class Example3 {
 		Set<String> checkedRegions = new HashSet<>();
 		for (Offering off : equipment.getOfferings()) {
 			String region = off.getRegion();
+			
+			//pass if region has been checked
 			if (checkedRegions.contains(region)) {
 				continue;
 			}
@@ -59,7 +63,7 @@ public class Example3 {
 					possPref = off2;
 					break;
 				} else {
-					if (possPref == null) {
+					if (off2.isMatch(equipment) || possPref == null) {
 						possPref = off2;
 					}
 				}

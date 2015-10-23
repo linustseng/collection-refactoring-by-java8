@@ -35,4 +35,8 @@ public class Offering {
 	public void setPreferred(boolean isPreferred) {
 		this.isPreferred = isPreferred;
 	}
+
+	public boolean isMatch(Equipment eqp) {
+		return eqp.getName().equals(supplied.getName());
+	}
 }

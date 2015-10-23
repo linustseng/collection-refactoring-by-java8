@@ -27,7 +27,9 @@ public class Example4 {
 				cancellationsMap.put(airport, 0l);
 				totalDelayMap.put(airport, 0l);
 			}
+			
 			countMap.put(airport, countMap.get(airport) + 1);
+			
 			if (flightData.isCancelled()) {
 				cancellationsMap
 						.put(airport, cancellationsMap.get(airport) + 1);
